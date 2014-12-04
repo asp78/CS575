@@ -1,0 +1,33 @@
+﻿.IdeaSubmitter {
+    font-weight:bold;
+    margin-bottom:0;
+}
+
+.IdeaSubmittedDate {
+    color:GrayText;
+    font-weight:normal;
+    font-style:italic;
+    margin-bottom:0;
+}
+
+.name {
+    font-weight:bold;
+}
+
+.WTFIMI {
+    margin:1em;
+}
+
+.container {
+    width:100%;
+}
+
+.category {
+    margin-top:20px;
+}
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('./fonts/glyphicons-halflings-regular.eot');
+    src: url('./fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('./fonts/glyphicons-halflings-regular.woff') format('woff'), url('./fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('./fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+}

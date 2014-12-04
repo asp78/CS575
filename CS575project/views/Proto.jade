@@ -1,0 +1,102 @@
+doctype html
+html(ng-app='ideaList')
+  head
+    title Prototype
+    |     
+    link(rel='stylesheet', type='text/css', href='/stylesheets/bootstrap.min.css')
+    |     
+    link(rel='stylesheet', type='text/css', href='/stylesheets/proto.css')
+    |     
+    link(rel='stylesheet', type='text/css', href='/stylesheets/bootstrap-theme.min.css')
+    |     
+    script(type='text/javascript', src='/javascripts/jquery-1.11.1.js')
+    |     
+    script(type='text/javascript', src='/javascripts/angular.min.js')
+    |     
+    script(type='text/javascript', src='/javascripts/proto.js')
+    |     
+    script(type='text/javascript', src='/javascripts/bootstrap.min.js')
+  body(ng-controller='Idea_ListController as Idea_ListCtrl', style='background-color:#F5F5F5;')
+    .container
+      .row
+        .col-md-8
+          div(ng-controller='ExampleController as ExCtrl')
+            form.simple-form(novalidate='', id='/submitIdea', action='addIdea', method='POST')
+              h3 Add an Idea
+              | Title: 
+              input(type='text', ng-model='test.title', name='title')
+              br
+              | Description: 
+              input(type='text', ng-model='test.description', name='description')
+              br
+              | Main Category: 
+              input(type='text', ng-model='test.main_category', name='main_category')
+              br
+              | Sub Category: 
+              input(type='text', ng-model='test.sub_category', name='sub_category')
+              br
+              input(type='text', ng-model='test.status', name='status', value='Submitted', ng-hide='true')
+              input(type='submit', value='Submit')
+          |                 
+          .list-group
+            .list-group-item(ng-repeat="idea in elements", style='background-color:#D1EEEE;')
+              .row
+                .col-sm-12
+                  p.IdeaSubmitter
+                    | {{ idea.idea_submitter }} 
+                    span.IdeaSubmittedDate {{idea.submission_time | date:&apos;MMM d, y h:mm a&apos;}}
+                |                             
+                .col-sm-8
+                  h3 {{ idea.title }}
+                  |                                 
+                  .progress.WTFIMI
+                    .progress-bar.progress-bar-danger.progress-bar-striped(ng-show="idea.status === 'Submitted'", role='progressbar', aria-valuenow='25', aria-valuemax='100', style='width:25%')
+                      | {{ idea.status }}
+                    |                                     
+                    .progress-bar.progress-bar-warning.progress-bar-striped(ng-show="idea.status === 'In-Review'", role='progressbar', aria-valuenow='50', aria-valuemax='100', style='width:50%')
+                      | {{ idea.status }}
+                    |                                     
+                    .progress-bar.progress-bar-primary.progress-bar-striped(ng-show="idea.status === 'In-Progress'", role='progressbar', aria-valuenow='75', aria-valuemax='100', style='width:75%')
+                      | {{ idea.status }}
+                    |                                     
+                    .progress-bar.progress-bar-success.progress-bar-striped(ng-show="idea.status === 'Completed'", role='progressbar', aria-valuenow='100', aria-valuemax='100', style='width:100%')
+                      | {{ idea.status }}
+                    |                                     
+                    .progress-bar.progress-bar-success.progress-bar-striped(ng-show="idea.status === 'Actualized'", role='progressbar', aria-valuenow='100', aria-valuemax='100', style='width:100%')
+                      | {{ idea.status }}
+                  |                                 
+                  div(ng-controller='DescriptionController as descriptionCtrl')
+                    span {{ idea.description | limitTo:letterLimit }}
+                    |                                     
+                    a(href='javascript:;', ng-show='idea.description.length > 400', ng-click='descriptionCtrl.change(idea)') {{ link }}
+                |                             
+                .col-sm-4
+                  p.category
+                  h4 Category:
+                  h5 {{ idea.main_category }} - {{ idea.sub_category }}
+                  p
+                  |                                 
+                  h4(ng-controller='SupportController as supportCtrl')
+                    | Support: {{ idea.support.length }}
+                    span.glyphicon.glyphicon-thumbs-up(ng-click='supportCtrl.support(idea)')
+                  |                                 
+                  button.btn.btn-info(type='button') Get Updates for this Idea!
+              |                         
+              h4
+                | Comments ({{ idea.comments.length }})
+              |                         
+              .list-group
+                .list-group-item(ng-repeat='comment in idea.comments', style='background-color:#CCFFCC;')
+                  p {{ comment.body }}
+                  |                                 
+                  cite.name -{{ comment.author }}
+                  |                                 
+                  p.IdeaSubmittedDate {{ comment.time | date:&apos;MMM d, y h:mm a&apos; }}
+                |                             
+                .list-group-item(style='background-color:#CCFFCC;')
+                  form(name='commentForm', ng-controller='CommentController as commentCtrl', ng-submit='commentCtrl.addComment(idea)')
+                    fieldset.form-group
+                      textarea.form-control(ng-model='commentCtrl.comment.body', placeholder='Enter your comment here...', title='Comment')
+                    |                                     
+                    fieldset.form-group
+                      input.btn.btn-primary.pull-right(type='submit', value='Submit Comment')
