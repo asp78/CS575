@@ -5,7 +5,7 @@ app.controller('Idea_ListController', ['$scope', '$http','$filter', function ($s
     $http.get("http://localhost:3000/getIdeas")
         .success(function (data) {
             $scope.elements = data;
-            $scope.elements = $filter('orderBy')($scope.elements, $scope.elements.submission_time, false);
+            $scope.elements = $filter('orderBy')($scope.elements, '-submission_time', false);
         });
 }]);
 
